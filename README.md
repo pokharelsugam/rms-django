@@ -63,7 +63,7 @@ Comming Soon
     <pre><code>
     python manage.py createsuperuser
     </code></pre>
-	# While creating superuser phone number must write in international format like +[country_code][phone_number] e.g.; +9779812345678
+	### While creating superuser phone number must write in international format like +[country_code][phone_number] e.g.; +9779812345678
 10. Start the development server
     <pre><code>
     python manage.py runserver
