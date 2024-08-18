@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Menu Items{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+  <a href="{% url 'menu_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<h1>Menu Items</h1>
+{% if user.is_admin or user.is_chef or user.is_waiter %}
+<a href="{% url 'menuitem_add' %}" class="btn btn-primary mb-3">Add New Menu Item</a>
+{% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Customizations</th>
+      <th>Total Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for menu_item in menu_items %}
+    <tr>
+      <td>{{ menu_item.category.name }}</td>
+      <td>{{ menu_item.name }}</td>
+      <td>Rs.{{ menu_item.price }}</td>
+      <td>
+          {% for customizations in menu_item.customization.all %}
+              {{ customizations.name }} (Rs.{{ customizations.price }})
+              {% if not forloop.last %}, {% endif %}
+              {% empty %}
+                  No Customization
+          {% endfor %}
+      </td>
+      <td>Rs.{{ menu_item.get_customized_price }}</td>
+      <td>
+        {% if user.is_admin or user.is_manager or user.is_chef or user.is_waiter %}
+        <a href="{% url 'menuitem_detail' menu_item.id %}" class="btn btn-primary">View</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="5">No menu items available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+  setTimeout(function() {
+      location.reload();
+  }, 30000); 
+</script>
+
+{% endblock %}

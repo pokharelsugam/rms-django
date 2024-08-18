@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Order #{{ order.order_number }}</h1>
+    <p><strong>Customer Name:</strong> {{ order.customer_name }}</p>
+    <p><strong>Order Status:</strong> {{ order.get_order_status_display }}</p>
+    <p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
+    <p><strong>Order Type:</strong> {{ order.get_order_type_display }}</p>
+    <p><strong>Table:</strong> {{ order.table }}</p>
+    <p><strong>Created At:</strong> {{ order.created_at }}</p>
+    <p><strong>Created By:</strong> {{ order.created_by }}</p>
+    <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+    <p><strong>Updated By:</strong> {{ order.updated_by }}</p>
+
+    <h2>Order Items</h2>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'orderitem_add' order.id %}" class="btn btn-primary mb-3">Add New Item</a>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Menu Item</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Customizations(Rate)</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in order_items %}
+            <tr>
+                <td>{{ order_item.menu_item.name }}</td>
+                <td>{{ order_item.quantity }}</td>
+                <td>Rs.{{ order_item.menu_item.price }}</td>
+                <td>
+                    {% for customization in order_item.customizations.all %}
+                        {{ customization.name }} (Rs.{{ customization.price}}){% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                             No Customization
+                    {% endfor %}
+                </td>
+                <td>Rs.{{ order_item.total_price }}</td>
+                <td>
+                    {% if user.is_admin or user.is_waiter or user.is_manager or user.is_chef %}
+                    <a href="{% url 'orderitem_detail' order_item.id %}" class="btn btn-primary">View</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No items available for this order.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total Price: Rs.{{ order.get_total_price }}</h3>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'order_edit' order.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'order_delete' order.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'order' %}" class="btn btn-secondary">Back to Orders</a>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

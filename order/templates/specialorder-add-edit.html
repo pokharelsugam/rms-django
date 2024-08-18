@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Add/Edit Special Order{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ form.instance.id|yesno:"Edit Special Order,Add Special Order" }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'specialorder' %}" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableField = document.querySelector('#id_table');
+        const customerNameField = document.querySelector('#id_customer_name');
+    
+        function updateCustomerName() {
+            const tableId = tableField.value;
+            if (tableId) {
+                fetch(`/api/get_table_status/${tableId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.table_status === 'reserved' || data.table_status === 'occupied') {
+                            customerNameField.value = data.guest_name;
+                            customerNameField.readOnly = true;
+                        } else {
+                            customerNameField.value = '';
+                            customerNameField.readOnly = false;
+                        }
+                    });
+            } else {
+                customerNameField.value = '';
+                customerNameField.readOnly = false;
+            }
+        }
+    
+        tableField.addEventListener('change', updateCustomerName);
+        updateCustomerName();
+    });
+    </script>
+
+{% endblock %}

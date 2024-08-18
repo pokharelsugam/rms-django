@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Item Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+<h1>Order Item Detail</h1> 
+<p><strong>Order Number:</strong> {{ order_item.order.order_number }}</p>
+<p><strong>Item Category:</strong> {{ order_item.menu_item.category }}</p>
+<p><strong>Menu Item:</strong> {{ order_item.menu_item.name }}</p>
+<p><strong>Rate:</strong> Rs.{{ order_item.menu_item.price }}</p>
+<p><strong>Quantity:</strong> {{ order_item.quantity }}</p>
+<p><strong>Customizations:</strong>
+    {% for customization in order_item.customizations.all %}
+        {{ customization.name }}: {{ customization.price }}</li>{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            No customizations
+    {% endfor %}
+</p>
+<p><strong>Preparation Instructions:</strong> {{ order_item.preparation_instructions }}</p>
+<p><strong>Total Price:</strong> Rs.{{ order_item.total_price }}</p>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'orderitem_edit' order_item.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'orderitem_delete' order_item.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <button onclick="history.back()" class="btn btn-secondary">Back</button>
+</div>
+{% endblock %}

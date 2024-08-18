@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %} 
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<!-- Hero Section -->
+<div class="container">
+    <h1 class="display-4">Welcome to User Authentication & Access Control</h1>
+    <p class="lead">Secure user registration, login, and access control with defined roles for Admin, Manager, Waiter, Chef, and Cashier.</p>
+
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <a href="{% url 'login_universal' %}">
+                <h2>Login</h2>
+                <i class="fas fa-sign-in-alt fa-3x mb-3"></i>
+                <p>Secure login for all roles including Admin, Manager, Waiter, Chef, and Cashier.</p>
+            </a>
+        </div>
+{% if user.is_authenticated %}
+    {% if user.is_admin or user.is_manager %}
+        <div class="col-md-6 text-center">
+            <a href="{% url 'register_universal' %}">
+                <h2>Register</h2>
+                <i class="fas fa-user-plus fa-3x mb-3"></i>
+                <p>Create an account for new users to access the system.</p>
+            </a>
+        </div>
+    {% endif %}     
+{% endif %} 
+    </div>
+</div>
+
+{% endblock %}

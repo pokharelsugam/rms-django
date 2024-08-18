@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}User Profile{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <button onclick="history.back()" class="btn btn-secondary">Go Back</button>
+</div>
+
+    <div class="container mt-5">
+        <h1 class="text-center">User Profile</h1>
+        <div class="card mt-4">
+            <div class="card-body">
+                <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
+                <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+                <p class="card-text"><strong>First Name:</strong> {{ user.first_name }}</p>
+                <p class="card-text"><strong>Last Name:</strong> {{ user.last_name }}</p>
+                <p class="card-text"><strong>Phone Number:</strong> {{ user.phone_no }}</p>
+                <p class="card-text"><strong>Employee ID:</strong> {{ user.staff.employee_id }}</p>
+                <p class="card-text"><strong>Address:</strong> {{ user.staff.address }}</p>
+                <p class="card-text"><strong>User type :</strong>
+                
+                    {% if user.is_admin %}
+                        Admin
+                    {% elif user.is_manager %}
+                        Manager
+                    {% elif user.is_waiter %}
+                        Waiter 
+                    {% elif user.is_chef %}
+                        Chef 
+                    {% elif user.is_cashier %}
+                        Cashier 
+                    {% else %}
+                        Not assigned 
+                    {% endif %}
+                
+                </p>
+                <h5 style="color:red;" > <i>Please contact to Restaurant Admin to edit or delete your information and profile </i> </h5>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

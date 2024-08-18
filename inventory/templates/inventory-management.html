@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Inventory Management{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<!-- Hero Section -->
+<div class="container">
+    <h1 class="display-4">Welcome to Inventory Management</h1>
+    <p class="lead">Manage your ingredients and their usage efficiently.</p>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <a href="{% url 'ingredient' %}">
+                <h2>Ingredients</h2>
+                <i class="fas fa-carrot fa-3x mb-3"></i>
+                <p>View and manage all ingredients, including stock levels and expiration dates.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'ingredientusage' %}">
+                <h2>Ingredient Usage</h2>
+                <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                <p>Add and manage the usage of ingredients in menu items.</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

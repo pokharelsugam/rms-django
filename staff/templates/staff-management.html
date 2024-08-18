@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Staff Management{% endblock %} 
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<!-- Hero Section -->
+<div class="container">
+    <h1 class="display-4">Welcome to Staff Management</h1>
+    <p class="lead">Manage staff roles, schedules, contact information, and provide access to employee resources.</p>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <a href="{% url 'staff' %}">
+                <h2>Staff</h2>
+                <i class="fas fa-user-tie fa-3x mb-3"></i>
+                <p>View and manage all staff members with their roles and contact information.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'shift' %}">
+                <h2>Shift</h2>
+                <i class="fas fa-clock fa-3x mb-3"></i>
+                <p>Organize and manage staff shifts to ensure proper coverage.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'leave_request' %}">
+                <h2>Leave Request</h2>
+                <i class="fas fa-calendar-alt fa-3x mb-3"></i>
+                <p>Handle leave requests from staff members efficiently.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'worklog' %}">
+                <h2>Work Log</h2>
+                <i class="fas fa-clipboard-list fa-3x mb-3"></i>
+                <p>Maintain a log of staff work hours and activities for record-keeping.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'resource' %}">
+                <h2>Resources</h2>
+                <i class="fas fa-folder-open fa-3x mb-3"></i>
+                <p>Access and manage resources available for staff members, including manuals, training materials, and policies.</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

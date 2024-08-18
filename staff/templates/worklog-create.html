@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Create Work Log{% endblock %}
+{% block content %}
+<h1>Create Work Log</h1>
+
+{% if error %}
+  <div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<p><b>Current Shift:</b> {{ current_shift.name }}</p>
+<p><b>Current Time (UTC):</b> {{ current_time|date:"Y-m-d h:i:s A" }}</p>
+<p><b>Staff's Name:</b> {{ full_name }}</p>
+
+{% if existing_work_log %}
+  <h3>Active Work Log</h3>
+  <p><b>Clock In Time:</b> {{ existing_work_log.clock_in_time }}</p>
+  <p><b>Clock Out Time:</b> {{ existing_work_log.clock_out_time }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="clock_out" class="btn btn-warning">Clock Out</button>
+  </form>
+{% else %}
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="clock_in" class="btn btn-primary">Clock In</button>
+  </form>
+{% endif %}
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+  setTimeout(function() {
+      location.reload();
+  }, 10000); 
+</script>
+
+{% endblock %}

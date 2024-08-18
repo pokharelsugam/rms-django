@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Leave Request Detail{% endblock %}
+
+{% block content %}
+<h1>Leave Request Detail</h1>
+
+<p><b>Name of Staff:</b> {{ leave_request.staff.user.get_full_name }}</p>
+<p><b>Request date:</b> {{ leave_request.request_date }}</p>
+<p><b>Start date:</b> {{ leave_request.start_date }}</p>
+<p><b>End date:</b> {{ leave_request.end_date }}</p>
+<p><b>Reasons:</b> {{ leave_request.reason  }}</p>
+<p><b>Status:</b> {{ leave_request.get_leave_req_status_display }}</p>
+<p><b>Approved By:</b> {{ leave_request.approved_by.get_full_name }}</p>
+{% if user.is_admin or user.is_manager %}
+{% if leave_request.leave_req_status == 'PN' %}
+    <a href="{% url 'leave_req_approve' leave_request.pk %}" class="btn btn-success">Approve</a>
+    <a href="{% url 'leave_req_reject' leave_request.pk %}" class="btn btn-danger">Reject</a>
+{% endif %}
+<form method="post" action="{% url 'leave_req_delete' leave_request.pk %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this leave request?')">Delete</button>
+  </form>
+{% endif %}  
+<a href="{% url 'leave_request' %}" class="btn btn-secondary">Back to Leave Request</a>
+{% endblock %}

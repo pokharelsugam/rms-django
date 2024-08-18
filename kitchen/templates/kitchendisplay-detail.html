@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Kitchen Order Display Detail{% endblock %}
+{% block content %}
+<div class="container">
+<h1>Kitchen Order Display Detail</h1>   
+<p><strong>Order/Special Order:</strong> {{ kitchen_order }}</p>
+{% if kitchen_order.orders.all %}
+<p><strong>Order Item:</strong>
+    {% for menuitem in kitchen_order.orders.all %}
+        {{ menuitem.menu_item }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+<p><strong>Order Customizations:</strong>
+    {% for menuitem in kitchen_order.orders.all %}
+        {% for customization in menuitem.customizations.all %}
+            {{ customization.name }} (Rs.{{ customization.price }}){% if not forloop.last %}, {% endif %}
+        {% empty %}
+            No customizations
+        {% endfor %}
+    {% endfor %}
+{% else %}    
+</p>
+<p><strong>Special Order (Item Name):</strong> {{ kitchen_order.order_item }}</p>
+<p><strong>Special Order (Item Preparation Instruction):</strong> {{ kitchen_order.preparation_instructions }}</p>
+{% endif %}
+<p><strong>Order Status:</strong> {{ kitchen_order.get_order_status_display }}</p>
+    <form method="post" action="{% url 'kitchendisplay_update_order_status' order_type kitchen_order.id %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="order_status">Update Order Status:</label>
+            <select name="order_status" id="order_status" class="form-control">
+                <option value="RC">Received</option>
+                <option value="IP">In Preparation</option>
+                <option value="RP">Ready for Serving</option>
+                <option value="SR">Served</option>
+                <option value="RJ">Reject</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Order Status</button>
+        <a href="{% url 'kitchendisplay' %}" class="btn btn-secondary">Back</a>
+    </form>
+</div>
+{% endblock %}

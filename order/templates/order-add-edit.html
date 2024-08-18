@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}{{ form.instance.pk|yesno:"Edit Order,Add Order" }}{% endblock %}
+
+{% block content %}
+<h2>{{ form.instance.pk|yesno:"Edit Order,Add Order" }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">{{ form.instance.pk|yesno:"Save Changes,Add Order" }}</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tableField = document.querySelector('#id_table');
+    const customerNameField = document.querySelector('#id_customer_name');
+
+    function updateCustomerName() {
+        const tableId = tableField.value;
+        if (tableId) {
+            fetch(`/api/get_table_status/${tableId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.table_status === 'reserved' || data.table_status === 'occupied') {
+                        customerNameField.value = data.guest_name;
+                        customerNameField.readOnly = true;
+                    } else {
+                        customerNameField.value = '';
+                        customerNameField.readOnly = false;
+                    }
+                });
+        } else {
+            customerNameField.value = '';
+            customerNameField.readOnly = false;
+        }
+    }
+
+    tableField.addEventListener('change', updateCustomerName);
+    updateCustomerName();
+});
+</script>
+{% endblock %}

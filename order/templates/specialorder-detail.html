@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Special Order Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Special Order No: #{{ special_order.order_number }}</h3>
+    <p><strong>Customer Name:</strong> {{ special_order.customer_name }}</p>
+    <p><strong>Order Item:</strong> {{ special_order.order_item }}</p>
+    <p><strong>Preparation Instructions:</strong> {{ special_order.preparation_instructions }}</p>
+    <p><strong>Rate:</strong> Rs.{{ special_order.price }}</p>
+    <p><strong>Quantity:</strong> {{ special_order.quantity }}</p>
+    <p><strong>Total Price:</strong> Rs.{{ special_order.total_price }}</p>
+    <p><strong>Order Type:</strong> {{ special_order.get_order_type_display }}</p>
+    <p><strong>Table:</strong> {{ special_order.table }}</p>
+    <p><strong>Order Status:</strong> {{ special_order.get_order_status_display }}</p>
+    <p><strong>Payment Status:</strong> {{ special_order.get_payment_status_display }}</p>
+    <p><strong>Reservation:</strong> {{ special_order.reservation }}</p>
+    <p><strong>Seating:</strong> {{ special_order.seating }}</p>
+    <p><strong>Created at:</strong> {{ special_order.created_at }}</p>
+    <p><strong>Created By:</strong> {{ special_order.created_by }}</p>
+    <p><strong>Updated at:</strong> {{ special_order.updated_at }}</p>
+    <p><strong>Updated By:</strong> {{ special_order.updated_by }}</p>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'specialorder_edit' special_order.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'specialorder_delete' special_order.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'specialorder' %}" class="btn btn-secondary">Back to List</a>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Table Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Table: {{ table.table_number }}</h2>
+    <p><strong>Capacity:</strong> {{ table.capacity }}</p>
+    <p><strong>Table Status:</strong> {{ table.get_table_status_display }}</p>
+    
+    <!-- Reservations Section -->
+    <h4>Reservations</h4>
+    {% if table.reservations.all %}
+        <ul>
+            {% for reservation in table.reservations.all %}
+                <li>
+                    <strong>Date:</strong> {{ reservation.reservation_date }} 
+                    <strong>Time:</strong> {{ reservation.start_time }} - {{ reservation.end_time }} 
+                    (Reserved by: {{ reservation.guest_name }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reservations for this table.</p>
+    {% endif %}
+    
+    <!-- Seatings Section -->
+    <h4>Seatings</h4>
+    {% if table.seatings.all %}
+        <ul>
+            {% for seating in table.seatings.all %}
+                <li>
+                    <strong>Time:</strong> {{ seating.start_time }} - 
+                    {% if seating.end_time %}{{ seating.end_time }}{% else %}Present{% endif %}
+                    (Occupied by: {{ seating.guest_name }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No seatings for this table.</p>
+    {% endif %}
+    {% if user.is_admin or user.is_manager %}
+    <a href="{% url 'table_edit' table.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'table_delete' table.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'table' %}" class="btn btn-secondary">Back to List</a>
+</div>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 30000); 
+  </script>
+
+{% endblock %}

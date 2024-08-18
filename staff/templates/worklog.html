@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Work Logs{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+  <a href="{% url 'staff_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<h1>Work Logs</h1>
+<a href="{% url 'worklog_create' %}" class="btn btn-primary mb-3">Create New Work Log</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Staff</th>
+      <th scope="col">Shift</th>
+      <th scope="col">Clock In</th>
+      <th scope="col">Clock Out</th>
+      <th scope="col">Hours Worked</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for worklog in worklogs %}
+    <tr>
+      <td>{{ worklog.staff.user.get_full_name }}</td>
+      <td>{{ worklog.shift.name }}</td>
+      <td>{{ worklog.clock_in_time }}</td>
+      <td>{{ worklog.clock_out_time }}</td>
+      <td>{{ worklog.hours_worked }}</td>
+      <td>
+          {% if user.is_admin or user.is_manager %}
+          <a href = "{% url 'worklog_detail' worklog.pk %}" class = "btn btn-primary"> View </a>
+          {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">No work logs found.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+  setTimeout(function() {
+      location.reload();
+  }, 30000); 
+</script>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Work Log Details{% endblock %}
+
+{% block content %}
+<h1>Work Log Details</h1>
+<p><strong>Staff:</strong> {{ worklog.staff.user.get_full_name }}</p>
+<p><strong>Shift:</strong> {{ worklog.shift.name }}</p>
+<p><strong>Clock In:</strong> {{ worklog.clock_in_time }}</p>
+<p><strong>Clock Out:</strong> {{ worklog.clock_out_time }}</p>
+<p><strong>Hours Worked:</strong> {{ worklog.hours_worked }}</p>
+{% if user.is_admin or user.is_manager %}
+<form method="post" action="{% url 'worklog_delete' worklog.pk %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this Work log?')">Delete</button>
+  </form>
+{% endif %}  
+<a href="{% url 'worklog' %}" class="btn btn-secondary">Back to Work Logs</a>
+{% endblock %}

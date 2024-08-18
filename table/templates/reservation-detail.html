@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Reservation Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Reservation for {{ reservation.guest_name }}</h2>
+    <p><strong>Table:</strong> {{ reservation.table.table_number }}</p>
+    <p><strong>Guest Name:</strong> {{ reservation.guest_name }}</p>
+    <p><strong>Guest Count:</strong> {{ reservation.guest_count }}</p>
+    <p><strong>Reservation Date:</strong> {{ reservation.reservation_date }}</p>
+    <p><strong>Reservation Start:</strong> {{ reservation.start_time }}</p>
+    <p><strong>Reservation End:</strong> {{ reservation.end_time }}</p>
+    <p><strong>Reserved By:</strong> {{ reservation.reserved_by }}</p>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'reservation_edit' reservation.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'reservation_delete' reservation.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'reservation' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

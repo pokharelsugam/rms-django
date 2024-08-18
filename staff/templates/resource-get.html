@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Resource Details{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row">
+        <!-- Resource Details -->
+        <div class="col-md-12 offset-md-0">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ resource.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Description:</h5>
+                    <p> {{ resource.description }}</p>
+                </div>
+                <div class="card-footer text-left d-flex justify-content-between">
+                    <a href="{{ resource.file.url  }}" class="btn btn-primary" target="_blank">Read/Download</a>
+                    <a href="{% url 'resource' %}" class="btn btn-secondary ms-2">Back</a>
+                    {% if user.is_admin or user.is_manager %}
+                        <a href="{% url 'resource_edit' resource.pk %}" class="btn btn-warning">Edit</a>
+                        <a href="{% url 'resource_delete' resource.pk %}" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

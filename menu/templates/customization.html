@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Customization{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+  <a href="{% url 'menu_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<h1>Customization List</h1>
+{% if user.is_admin or user.is_chef %}
+<a href="{% url 'customization_add' %}" class="btn btn-primary mb-3">Add New Customization</a>
+{% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for customization in customizations %}
+    <tr>
+      <td>{{ customization.category.name }}</td>
+      <td>{{ customization.name }}</td>
+      <td>Rs.{{ customization.price }}</td>
+      <td>
+        {% if user.is_admin or user.is_manager or user.is_chef or user.is_waiter %}
+        <a href="{% url 'customization_detail' customization.id %}" class="btn btn-primary">View</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No customizations available.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

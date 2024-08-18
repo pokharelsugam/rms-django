@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Staff Edit {% endblock %}
+{% block content %}
+<h2>Update Staff</h2>
+<div class = "mb-3">
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ staff_form.as_p }}
+    <button type="submit" class = "btn btn-primary">Save Change</button>
+</form>
+</div>
+<a href="{% url 'staff' %}"><button class = "btn btn-primary">Cancel</button></a>
+{% endblock %}

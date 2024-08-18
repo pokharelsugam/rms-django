@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Add/Edit Resource{% endblock %}
+
+{% block content %}
+<h1>{{ form.instance.pk|yesno:"Edit Resource,Add Resource" }}</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'resource' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

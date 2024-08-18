@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} MenuItem Details{% endblock title %}
+{% block content %}
+<h2>MenuItem Details</h2>
+<p><b>Item Category:</b> {{ menu_item.category.name }}</p>
+<p><b>Item Name:</b> {{ menu_item.name }}</p>
+<p><b>Description:</b> {{ menu_item.description }}</p>
+<p><b>Price:</b> Rs.{{ menu_item.price }}</p>
+<p><b>Customizations:</b>
+    {% for customizations in menu_item.customization.all %}
+        {{ customizations.name }} (Rs.{{ customizations.price }})
+        {% if not forloop.last %}, {% endif %}
+        {% empty %}
+            No Customization
+    {% endfor %}
+</p>
+<p><b>Total Price:</b> Rs.{{ menu_item.get_customized_price }}</p>
+<p><b>Ingredients:</b>
+    {% for ingredient in menu_item.ingredients.all %}
+        {{ ingredient.name }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+{% if user.is_admin or user.is_chef or user.is_waiter %}
+<a href="{% url 'menuitem_edit' menu_item.id %}" class="btn btn-primary">Edit </a>
+{% endif %}
+{% if user.is_admin or user.is_chef %}
+<a href="{% url 'menuitem_delete' menu_item.id %}" class="btn btn-danger">Delete</a>
+{% endif %}
+<a href="{% url 'menuitem' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

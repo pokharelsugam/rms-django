@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Kitchen Display{% endblock %}
+{% block content %}
+
+<a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+
+<div class="container">
+    <h1>Kitchen Display</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Type</th>
+                <th>Customer Name</th>
+                <th>Order Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_number }}</td>
+                <td>Order</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.get_order_status_display }}</td>
+                <td>
+                    {% if user.is_admin or user.is_chef %}
+                    <a href="{% url 'kitchendisplay_detail' 'order' order.id %}" class="btn btn-info">View</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            {% for special_order in special_orders %}
+            <tr>
+                <td>{{ special_order.order_number }}</td>
+                <td>Special Order</td>
+                <td>{{ special_order.customer_name }}</td>
+                <td>{{ special_order.get_order_status_display }}</td>
+                <td>
+                    {% if user.is_admin or user.is_chef %}
+                    <a href="{% url 'kitchendisplay_detail' 'special_order' special_order.id %}" class="btn btn-info">View</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

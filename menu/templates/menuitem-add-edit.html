@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Add/Edit Menu Item{% endblock %}
+
+{% block content %}
+<h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Menu Item</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    function updateCustomizations() {
+        var categoryId = $('#id_category').val();
+        $.ajax({
+            url: "{% url 'get_customizations' %}",
+            data: {
+                'category_id': categoryId
+            },
+            success: function(data) {
+                $('#id_customization').html(data);
+            }
+        });
+    }
+
+    $('#id_category').change(updateCustomizations);
+
+    // Initialize the customizations based on the initial category value
+    updateCustomizations();
+});
+</script>
+{% endblock %}

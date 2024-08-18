@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Ingredient Detail{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{ ingredient.name }}</h1>
+    <p>Description: {{ ingredient.description }}</p>
+    <p>Stock Level: {{ ingredient.stock_level }} {{ ingredient.unit }}</p>
+    <p>Expiration Date: {{ ingredient.expiration_date }}</p>
+    <p>Expired: {{ ingredient.is_expired }}</p>
+    {% if user.is_admin or user.is_manager or user.is_chef %}
+    <a href="{% url 'ingredient_edit' ingredient.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'ingredient_delete' ingredient.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'ingredient' %}" class="btn btn-secondary">Back to Ingredient List</a>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

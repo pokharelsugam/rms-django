@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Staff Member{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+  <a href="{% url 'staff_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<h1>Staff Member</h1>
+{% if user.is_admin or user.is_manager %}
+<a href="/user/register" class="btn btn-primary mb-3">Create New Staff</a>
+{% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Username</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Employee ID</th>
+      <th scope="col">Roles</th>
+      <th scope="col">Address</th>
+      <th scope="col">Shifts</th>
+
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for staff in staffs %}
+    <tr>
+      <td>{{ staff.user.username }}</td>
+      <td>{{ staff.user.get_full_name }}</td>
+      <td>{{ staff.user.email}}</td>
+      <td>{{ staff.user.phone_no }}</td>
+      <td>{{ staff.employee_id }}</td>
+      <td>{{ staff.user.groups.all|join:", " }}</td>
+      <td>{{ staff.address }}</td>
+      <td>
+        {% for shift in staff.shifts.all %}
+          {{ shift.name }}
+          {% if not forloop.last %}, {% endif %}
+        {% empty %}
+          No shifts assigned
+        {% endfor %}
+      </td>
+      <td>
+        {% if user.is_admin or user.is_manager %}
+        <a href="{% url 'staff_detail' staff.id %}" class="btn btn-primary">View </a>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="6">No shifts found.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Reject Leave Request{% endblock %}
+
+{% block content %}
+<h1>Reject Leave Request</h1>
+<p>Are you sure you want to reject this leave request?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Reject</button>
+  <a href="{% url 'leave_request' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

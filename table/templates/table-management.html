@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Table Management{% endblock %} 
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'home' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<!-- Hero Section -->
+<div class="container">
+    <h1 class="display-4">Welcome to Table Management</h1>
+    <p class="lead">Manage your tables, reservations, and seating arrangements efficiently.</p>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <a href="{% url 'table' %}">
+                <h2>Tables</h2>
+                <i class="fas fa-table fa-3x mb-3"></i>
+                <p>View and manage all tables in the restaurant, including their status and capacity.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'reservation' %}">
+                <h2>Reservations</h2>
+                <i class="fas fa-calendar-check fa-3x mb-3"></i>
+                <p>Handle reservations, view upcoming reservations, and manage guest details.</p>
+            </a>
+        </div>
+        <div class="col-md-4 text-center">
+            <a href="{% url 'seating' %}">
+                <h2>Seating</h2>
+                <i class="fas fa-chair fa-3x mb-3"></i>
+                <p>Track seating assignments and monitor table occupancy.</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

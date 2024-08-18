@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Special Orders{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'order_management' %}" class="btn btn-secondary">Go Back</a>
+  </div>
+
+<div class="container mt-5">
+    <h1 class="display-4">Special Orders</h1>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'specialorder_add' %}" class="btn btn-primary mb-3">Add Special Order</a>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Customer Name</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+                <th>Order Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for special_order in special_orders %}
+            <tr>
+                <td>{{ special_order.order_number }}</td>
+                <td>{{ special_order.customer_name }}</td>
+                <td>{{ special_order.get_order_status_display }}</td>
+                <td>{{ special_order.get_payment_status_display }}</td>
+                <td>{{ special_order.get_order_type_display }}</td>
+                <td>
+                    {% if user.is_admin or user.is_waiter or user.is_manager or user.is_chef %}
+                    <a href="{% url 'specialorder_detail' special_order.id %}" class="btn btn-info btn-sm">View</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

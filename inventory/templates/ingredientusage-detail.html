@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Ingredient Usage Detail{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>{{ usage.ingredient.name }}</h1>
+    <p>Menu Item Name: {{ usage.menu_item.name  }}</p>
+    <p>Uses Quantity: {{ usage.quantity }}</p>
+    {% if user.is_admin or user.is_manager or user.is_chef %}
+    <a href="{% url 'ingredientusage_edit' usage.id %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'ingredientusage_delete' usage.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'ingredientusage' %}" class="btn btn-secondary">Back</a>
+</div>
+
+<!-- Auto Refresh Page per 10 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 10000); 
+  </script>
+
+{% endblock %}

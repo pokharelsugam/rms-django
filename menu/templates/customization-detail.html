@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Customization Details{% endblock title %}
+{% block content %}
+<h2>Customization Details</h2>
+<p><b>Item Category:</b> {{ customization.category.name }}</p>
+<p><b>Customization Name:</b> {{ customization.name }}</p>
+<p><b>Description:</b> {{ customization.description }}</p>
+<p><b>Price:</b> Rs.{{ customization.price }}</p>
+{% if user.is_admin or user.is_chef %}
+<a href="{% url 'customization_edit' customization.id %}" class="btn btn-primary">Edit </a>
+<a href="{% url 'customization_delete' customization.id %}" class="btn btn-danger">Delete</a>
+{% endif %}
+<a href="{% url 'customization' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

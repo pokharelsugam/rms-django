@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Seating{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'table_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<div class="container mt-5">
+    <div >
+        <h2>Seating</h2>
+        {% if user.is_admin or user.is_waiter %}
+        <a href="{% url 'seating_add' %}" class="btn btn-primary">Add Seating</a>
+        {% endif %}
+    </div>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Table</th>
+                <th>Guest Name</th>
+                <th>Guest Count</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seating in seatings %}
+            <tr>
+                <td>{{ seating.table.table_number }}</td>
+                <td>{{ seating.guest_name }}</td>
+                <td>{{ seating.guest_count }}</td>
+                <td>{{ seating.start_time }}</td>
+                <td>{{ seating.end_time|default:"Ongoing" }}</td>
+                <td>
+                    {% if user.is_admin or user.is_manager or user.is_waiter %}
+                    <a href="{% url 'seating_detail' seating.pk %}" class="btn btn-info btn-sm">View</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 30000); 
+  </script>
+
+{% endblock %}

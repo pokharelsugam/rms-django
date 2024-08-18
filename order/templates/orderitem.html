@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Order Items{% endblock %}
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'order_management' %}" class="btn btn-secondary">Go Back</a>
+  </div>
+  
+<div class="container mt-5">
+    <h2>Order Items</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Menu Item</th>
+                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Customizations(Rate)</th>
+                <th>Total Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_item in order_items %}
+            <tr>
+                <td>{{ order_item.order.order_number }}</td>
+                <td>{{ order_item.menu_item.name }}</td>
+                <td>Rs.{{ order_item.menu_item.price }}</td>
+                <td>{{ order_item.quantity }}</td>
+                <td>
+                    {% for customization in order_item.customizations.all  %}
+                      {{customization.name}} (Rs.{{ customization.price}}){% if not forloop.last %}, {% endif %}
+                      {% empty %}
+                             No Customization
+                    {% endfor %}
+
+                </td>
+                <td>Rs.{{ order_item.total_price }}</td>
+                <td>
+                    {% if user.is_admin or user.is_waiter or user.is_manager or user.is_chef %}
+                    <a href="{% url 'orderitem_detail' order_item.pk %}" class="btn btn-primary btn-sm">Detail</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 30000); 
+  </script>
+
+{% endblock %}

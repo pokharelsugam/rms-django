@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Seating Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Seating for {{ seating.guest_name }}</h2>
+    <p><strong>Table:</strong> {{ seating.table.table_number }}</p>
+    <p><strong>Guest Name:</strong> {{ seating.guest_name }}</p>
+    <p><strong>Guest Count:</strong> {{ seating.guest_count }}</p>
+    <p><strong>Start Time:</strong> {{ seating.start_time }}</p>
+    <p><strong>End Time:</strong> {{ seating.end_time|default:"Ongoing" }}</p>
+    <p><strong>Assigned By:</strong> {{ seating.assigned_by}}</p>
+    {% if user.is_admin or user.is_waiter %}
+    <a href="{% url 'seating_edit' seating.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'seating_delete' seating.pk %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <a href="{% url 'seating' %}" class="btn btn-secondary">Back to List</a>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Registration{% endblock %} 
+{% block content %}
+    <div class="container">
+        <h1>Register</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+    
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'user_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+{% endblock %}

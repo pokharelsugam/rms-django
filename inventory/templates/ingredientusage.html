@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Ingredient Usage{% endblock %}
+
+{% block content %}
+
+<!-- Back Button Section -->
+<div class="container py-3">
+    <a href="{% url 'inventory_management' %}" class="btn btn-secondary">Go Back</a>
+</div>
+
+<div class="container">
+    <h2>Ingredient Usage</h2>
+    {% if user.is_admin or user.is_manager or user.is_chef %}
+    <a href="{% url 'ingredientusage_add' %}" class="btn btn-primary mb-3">Add Ingredient Usage</a>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+                <th>Menu Item</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usage in usages %}
+                <tr>
+                    <td>{{ usage.ingredient.name }}</td>
+                    <td>{{ usage.quantity }} {{ usage.ingredient.unit }}</td>
+                    <td>{{ usage.menu_item.name }}</td>
+                    <td>
+                        {% if user.is_admin or user.is_manager or user.is_chef %}
+                        <a href="{% url 'ingredientusage_detail' usage.id %}" class="btn btn-primary btn-sm">View</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Auto Refresh Page per 30 seconds -->    
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 30000); 
+  </script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Staff Detail{% endblock title %}
+{% block content %}
+<h2>Staff Detail</h2>
+<p><b>Username:</b> {{ staff.user.username }}</p>
+<p><b>Full Name:</b> {{ staff.user.get_full_name }}</p>
+<p><b>Email:</b> {{ staff.user.email }}</p>
+<p><b>Phone Number:</b> {{ staff.user.phone_no }}</p>
+<p><b>Employee ID:</b> {{ staff.employee_id }}</p>
+<p><b>Roles:</b> {{ staff.user.groups.all|join:", " }}</p>
+<p><b>Address:</b> {{ staff.address }}</p>
+<p><b>Shifts:</b>
+    {% for shift in staff.shifts.all %}
+          {{ shift.name }}
+          {% if not forloop.last %}, {% endif %}
+        {% empty %}
+          No shifts assigned
+        {% endfor %}
+</p>
+{% if user.is_admin or user.is_manager %}
+<a href="{% url 'staff_edit' staff.id %}" class="btn btn-primary">Edit </a>
+<a href="{% url 'staff_delete' pk=staff.id %}" class="btn btn-danger">Delete</a>
+{% endif %}
+<a href="{% url 'staff' %}" class="btn btn-secondary">Back</a>
+
+{% endblock %}

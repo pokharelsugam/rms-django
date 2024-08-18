@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Resources{% endblock %}
+
+{% block content %}
+<h1>Resources</h1>
+{% if user.is_admin or user.is_manager %}
+<a href="{% url 'resource_add' %}" class="btn btn-primary">Add New Resource</a>
+{% endif %}
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resource in resources %}
+        <tr>
+            <td>{{ resource.name }}</td>
+            <td>{{ resource.description |truncatechars:75 }}</td>
+            <td>
+                <a href="{% url 'resource_get' resource.pk %}" class="btn btn-sm btn-primary">View</a>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
