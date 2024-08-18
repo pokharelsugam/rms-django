@@ -1,4 +1,4 @@
-# Django Library Management System
+# Django Restaurant Management System
 
 A robust Restaurant Management System built with Django. This project facilitates the management of restaurant operations including menu creation, table management, order processing, kitchen display system, billing, inventory management, staff management, and user authentication.
 
